@@ -3,9 +3,9 @@ package saloon.app.android.ui.base
 import androidx.recyclerview.widget.DiffUtil
 import saloon.app.android.ui.models.Model
 
-class ModelsDiffUtilItemCallback: DiffUtil.ItemCallback<Model>() {
+class ModelsDiffUtilItemCallback : DiffUtil.ItemCallback<Model>() {
     override fun areItemsTheSame(oldItem: Model, newItem: Model): Boolean {
-        TODO("Not yet implemented")
+        return oldItem.item == newItem.item
     }
 
     override fun getChangePayload(oldItem: Model, newItem: Model): Any? {
@@ -13,6 +13,6 @@ class ModelsDiffUtilItemCallback: DiffUtil.ItemCallback<Model>() {
     }
 
     override fun areContentsTheSame(oldItem: Model, newItem: Model): Boolean {
-        TODO("Not yet implemented")
+        return true
     }
 }

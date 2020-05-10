@@ -3,6 +3,7 @@ package saloon.app.android.ui.feed
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import kotlinx.android.synthetic.main.feed_fragment.view.*
 import saloon.app.android.R
@@ -23,6 +24,9 @@ class FeedFragment : Fragment(R.layout.feed_fragment) {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(FeedViewModel::class.java)
+        viewModel.pagedList.observe(this, Observer {
+            adapter.submitList(it)
+        })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

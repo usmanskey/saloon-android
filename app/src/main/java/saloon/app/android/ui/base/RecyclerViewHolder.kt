@@ -5,6 +5,7 @@ import androidx.annotation.IdRes
 import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import saloon.app.android.ui.models.Model
 
 
 /**
@@ -17,12 +18,12 @@ import androidx.recyclerview.widget.RecyclerView
  *
  * @since 1.0
  * */
-class RecyclerViewHolder<T>(
+class RecyclerViewHolder<T : Model>(
     itemView: View,
     @IdRes private val recyclerId: Int,
-    private val adapter: PagedListAdapter<T, AbstractViewHolder<T>>,
+    private val adapter: PagedListAdapter<Model, AbstractViewHolder<Model>>,
     decorators: List<RecyclerView.ItemDecoration>? = null
-) : AbstractViewHolder<PagedList<T>>(itemView) {
+) : AbstractViewHolder<T>(itemView) {
 
     init {
         val recycler = itemView.findViewById<RecyclerView>(recyclerId)
@@ -34,6 +35,6 @@ class RecyclerViewHolder<T>(
         }
     }
 
-    override fun bind(item: PagedList<T>) = adapter.submitList(item)
+    override fun bind(item: T) = adapter.submitList(item.item as PagedList<Model>)
 
 }
