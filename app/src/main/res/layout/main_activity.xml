@@ -13,7 +13,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
             app:toolbarId="@+id/toolbar">
 
             <androidx.appcompat.widget.Toolbar
@@ -22,30 +21,17 @@
                 android:layout_height="?attr/actionBarSize"
                 app:contentInsetStart="0dp">
 
-                <LinearLayout
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/main_tabs"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    app:tabGravity="fill"
+                    app:tabIndicatorColor="@color/black"
+                    app:tabIndicatorFullWidth="false"
+                    app:tabIndicatorHeight="4dp"
+                    app:tabSelectedTextColor="@color/black" />
 
-                    <ImageView
-                        android:id="@+id/main_create_question_button"
-                        android:layout_width="48dp"
-                        android:layout_height="match_parent"
-                        android:padding="8dp"
-                        app:srcCompat="@drawable/ic_outline_create_24" />
-
-                    <com.google.android.material.tabs.TabLayout
-                        android:id="@+id/main_tabs"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1" />
-
-                    <ImageView
-                        android:id="@+id/main_notification_button"
-                        android:layout_width="48dp"
-                        android:layout_height="match_parent"
-                        android:padding="8dp"
-                        app:srcCompat="@drawable/ic_baseline_notifications_24" />
-                </LinearLayout>
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>

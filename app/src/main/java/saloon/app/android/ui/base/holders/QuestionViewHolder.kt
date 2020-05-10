@@ -1,8 +1,9 @@
-package saloon.app.android.ui.base
+package saloon.app.android.ui.base.holders
 
 import android.view.View
 import kotlinx.android.synthetic.main.item_question.view.*
 import saloon.app.android.data.models.Question
+import saloon.app.android.ui.base.holders.AbstractViewHolder
 import saloon.app.android.ui.models.Model
 
 class QuestionViewHolder(itemView: View) : AbstractViewHolder<Model>(itemView) {

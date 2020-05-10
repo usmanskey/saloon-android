@@ -1,4 +1,4 @@
-package saloon.app.android.ui.base
+package saloon.app.android.ui.base.holders
 
 import android.view.View
 import saloon.app.android.data.models.Question

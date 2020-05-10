@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Saloon</string>
+    <string name="articles_title">Articles</string>
+    <string name="feed_title">Feed</string>
 </resources>
