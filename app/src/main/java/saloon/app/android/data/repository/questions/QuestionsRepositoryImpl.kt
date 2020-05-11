@@ -1,11 +1,17 @@
 package saloon.app.android.data.repository.questions
 
 import androidx.paging.PagedList
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.google.firestore.v1.FirestoreGrpc
+import kotlinx.coroutines.tasks.await
 import saloon.app.android.data.models.Answer
 import saloon.app.android.data.models.Model
 import saloon.app.android.data.models.Question
 import saloon.app.android.data.models.User
 import saloon.app.android.data.repository.QuestionsRepository
+import saloon.app.android.data.repository.user.UsersRepositoryImpl
+import java.lang.Exception
 import java.util.concurrent.Executor
 
 class QuestionsRepositoryImpl(
@@ -21,8 +27,23 @@ class QuestionsRepositoryImpl(
         .setNotifyExecutor(notifyExecutor)
         .build()
 
-    override suspend fun createQuestion(question: Question): Boolean {
-        TODO("Not yet implemented")
+    override suspend fun createQuestion(userId: String, question: Question): Boolean {
+
+        val db = Firebase.firestore
+
+        val doc = db.collection(UsersRepositoryImpl.USERS_COLLECTION_NAME)
+            .document(userId)
+            .collection(QUESTIONS_COLLECTION_NAME)
+            .document()
+
+        return try {
+            doc.set(question.apply { id = doc.id }).await()
+
+            true
+        } catch (e: Exception) {
+            false
+        }
+
     }
 
     override suspend fun getQuestion(id: String): Question {

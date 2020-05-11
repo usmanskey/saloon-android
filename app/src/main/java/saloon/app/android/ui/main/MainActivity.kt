@@ -1,4 +1,4 @@
-package saloon.app.android.ui
+package saloon.app.android.ui.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

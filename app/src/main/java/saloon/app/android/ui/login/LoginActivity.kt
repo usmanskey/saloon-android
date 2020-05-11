@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.login_activity.*
 import saloon.app.android.R
 import saloon.app.android.data.models.User
 import saloon.app.android.data.repository.user.UsersRepositoryImpl
-import saloon.app.android.ui.MainActivity
+import saloon.app.android.ui.main.MainActivity
 
 private const val RC_SIGN_IN = 123
 

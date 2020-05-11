@@ -1,20 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/cancel_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackground"
+            android:padding="16dp"
+            app:srcCompat="@drawable/ic_baseline_close_24" />
+
+        <ImageView
+            android:id="@+id/open_image_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:background="?selectableItemBackground"
+            android:padding="16dp"
+            app:srcCompat="@drawable/ic_baseline_add_photo_alternate_24" />
+    </FrameLayout>
+
+    <EditText
+        android:id="@+id/question_title"
+        style="@style/TextAppearance.MaterialComponents.Headline2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@android:color/transparent"
+        android:gravity="center"
+        android:hint="@string/create_question_hint"
+        android:maxEms="200"
+        android:padding="16dp"
+        app:autoSizeMaxTextSize="32dp"
+        app:autoSizeMinTextSize="16dp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/do_not_display_author"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layoutDirection="rtl"
+            android:text="@string/anon_question"
+            app:switchPadding="16dp" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/create_question_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="@string/create_question_text"
+            android:textColor="@color/white" />
     </LinearLayout>
-</LinearLayout>
+</FrameLayout>

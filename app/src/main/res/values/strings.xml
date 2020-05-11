@@ -2,4 +2,7 @@
     <string name="app_name">Saloon</string>
     <string name="articles_title">Articles</string>
     <string name="feed_title">Feed</string>
+    <string name="create_question_hint">Be or not to be?</string>
+    <string name="anon_question">Do not display the author of the question</string>
+    <string name="create_question_text">Create question</string>
 </resources>
