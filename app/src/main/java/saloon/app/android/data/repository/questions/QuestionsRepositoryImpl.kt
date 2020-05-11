@@ -28,7 +28,6 @@ class QuestionsRepositoryImpl(
         .build()
 
     override suspend fun createQuestion(userId: String, question: Question): Boolean {
-
         val db = Firebase.firestore
 
         val doc = db.collection(UsersRepositoryImpl.USERS_COLLECTION_NAME)
@@ -38,7 +37,6 @@ class QuestionsRepositoryImpl(
 
         return try {
             doc.set(question.apply { id = doc.id }).await()
-
             true
         } catch (e: Exception) {
             false

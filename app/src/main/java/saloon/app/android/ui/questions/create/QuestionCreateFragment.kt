@@ -3,6 +3,7 @@ package saloon.app.android.ui.questions.create
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -16,6 +17,7 @@ import saloon.app.android.R
 import saloon.app.android.data.models.Question
 import saloon.app.android.data.repository.questions.QuestionsItemKeyed
 import saloon.app.android.data.repository.questions.QuestionsRepositoryImpl
+import java.util.*
 import java.util.concurrent.Executors
 
 class QuestionCreateFragment : Fragment(R.layout.create_question_fragment) {
@@ -42,10 +44,18 @@ class QuestionCreateFragment : Fragment(R.layout.create_question_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        create_question_button.setOnClickListener {
+        question_title.addTextChangedListener {
+            create_question_button.isEnabled = it?.isNotEmpty() == true
+        }
 
+        create_question_button.setOnClickListener {
             lifecycleScope.launch {
-                viewModel.createQuestion(Question(title = question_title.text.toString()))
+                viewModel.createQuestion(
+                    Question(
+                        title = question_title.text.toString(),
+                        date = Date().time
+                    )
+                )
             }
         }
     }

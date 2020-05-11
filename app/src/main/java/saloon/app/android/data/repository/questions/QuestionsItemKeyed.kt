@@ -12,10 +12,10 @@ class QuestionsItemKeyed(
     private val db: FirebaseFirestore,
     private val userId: String,
     private val questionsCollectionName: String
-) : ItemKeyedDataSource<String, Model>() {
+) : ItemKeyedDataSource<Long, Model>() {
 
     override fun loadInitial(
-        params: LoadInitialParams<String>,
+        params: LoadInitialParams<Long>,
         callback: LoadInitialCallback<Model>
     ) {
         db.collection(UsersRepositoryImpl.USERS_COLLECTION_NAME)
@@ -36,12 +36,12 @@ class QuestionsItemKeyed(
             }
     }
 
-    override fun loadAfter(params: LoadParams<String>, callback: LoadCallback<Model>) {
+    override fun loadAfter(params: LoadParams<Long>, callback: LoadCallback<Model>) {
         db.collection(UsersRepositoryImpl.USERS_COLLECTION_NAME)
             .document(userId)
             .collection(questionsCollectionName)
             .limit(params.requestedLoadSize.toLong())
-            .orderBy("id")
+            .orderBy("date")
             .startAfter(params.key)
             .get()
             .addOnSuccessListener { result ->
@@ -57,8 +57,8 @@ class QuestionsItemKeyed(
             }
     }
 
-    override fun loadBefore(params: LoadParams<String>, callback: LoadCallback<Model>) {
+    override fun loadBefore(params: LoadParams<Long>, callback: LoadCallback<Model>) {
     }
 
-    override fun getKey(item: Model) = (item.item as? Question)?.id ?: ""
+    override fun getKey(item: Model) = (item.item as? Question)?.date ?: 0L
 }

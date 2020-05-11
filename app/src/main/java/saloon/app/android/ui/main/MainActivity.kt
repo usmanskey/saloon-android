@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity(R.layout.main_activity) {
         )
         main_view_pager.adapter = adapter
 
+        main_view_pager.setCurrentItem(1, true)
         TabLayoutMediator(main_tabs, main_view_pager) { tab, position ->
             when (position) {
                 0 -> tab.icon = getDrawable(R.drawable.ic_outline_create_24)
