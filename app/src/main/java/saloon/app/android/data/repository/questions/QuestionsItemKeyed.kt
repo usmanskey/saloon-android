@@ -10,7 +10,7 @@ import saloon.app.android.data.repository.user.UsersRepositoryImpl
 
 class QuestionsItemKeyed(
     private val db: FirebaseFirestore,
-    private val user: User,
+    private val userId: String,
     private val questionsCollectionName: String
 ) : ItemKeyedDataSource<String, Model>() {
 
@@ -19,7 +19,7 @@ class QuestionsItemKeyed(
         callback: LoadInitialCallback<Model>
     ) {
         db.collection(UsersRepositoryImpl.USERS_COLLECTION_NAME)
-            .document(user.id)
+            .document(userId)
             .collection(questionsCollectionName)
             .limit(params.requestedLoadSize.toLong())
             .get()
@@ -38,7 +38,7 @@ class QuestionsItemKeyed(
 
     override fun loadAfter(params: LoadParams<String>, callback: LoadCallback<Model>) {
         db.collection(UsersRepositoryImpl.USERS_COLLECTION_NAME)
-            .document(user.id)
+            .document(userId)
             .collection(questionsCollectionName)
             .limit(params.requestedLoadSize.toLong())
             .orderBy("id")

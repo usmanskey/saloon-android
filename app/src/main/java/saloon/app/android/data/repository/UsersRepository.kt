@@ -6,5 +6,7 @@ interface UsersRepository {
 
     suspend fun getUser(id: String): User?
 
+    suspend fun getUser(): User?
+
     suspend fun saveUser(user: User)
 }

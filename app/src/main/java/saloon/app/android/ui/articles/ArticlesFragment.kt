@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.feed_fragment.*
@@ -42,7 +43,7 @@ class ArticlesFragment : Fragment(R.layout.feed_fragment) {
                 QuestionsRepositoryImpl(
                     QuestionsItemKeyed(
                         Firebase.firestore,
-                        User("MujgUavCZIPuu5knemEp4FVF8hl2", "", "", "", 0, 0),
+                        Firebase.auth.uid!!,
                         QuestionsRepositoryImpl.QUESTIONS_COLLECTION_NAME
                     ),
                     Executors.newSingleThreadExecutor(),

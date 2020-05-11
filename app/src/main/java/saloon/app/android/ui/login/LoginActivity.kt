@@ -16,10 +16,12 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.login_activity.*
 import saloon.app.android.R
 import saloon.app.android.data.models.User
+import saloon.app.android.data.repository.user.UsersRepositoryImpl
 import saloon.app.android.ui.MainActivity
 
 private const val RC_SIGN_IN = 123
@@ -32,7 +34,11 @@ class LoginActivity : AppCompatActivity(R.layout.login_activity) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+        viewModel = ViewModelProvider(
+            this, LoginViewModelProvider(
+                UsersRepositoryImpl(Firebase.firestore, Firebase.auth)
+            )
+        ).get(LoginViewModel::class.java)
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
@@ -65,7 +71,7 @@ class LoginActivity : AppCompatActivity(R.layout.login_activity) {
             account?.let {
                 firebaseAuthWithGoogle(it.idToken!!)
 
-                val user = User(account.id!!, account.displayName!!, account.email!!, "", 0, 0)
+                val user = User(account.idToken!!, account.displayName!!, account.email!!, "", 0, 0)
                 viewModel.saveUser(user)
             }
         } catch (e: ApiException) {

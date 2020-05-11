@@ -10,11 +10,15 @@ import saloon.app.android.data.repository.UsersRepository
 class UsersRepositoryImpl(private val db: FirebaseFirestore, private val auth: FirebaseAuth) :
     UsersRepository {
 
-    override suspend fun getUser(id: String): User? =
+    override suspend fun getUser(id: String) =
         db.collection(USERS_COLLECTION_NAME)
             .document(id)
             .get()
             .await()
+            .toObject(User::class.java)
+
+    override suspend fun getUser() =
+        db.collection(USERS_COLLECTION_NAME).document(auth.uid!!).get().await()
             .toObject(User::class.java)
 
     override suspend fun saveUser(user: User) {

@@ -15,6 +15,7 @@ import saloon.app.android.R
 import saloon.app.android.data.models.User
 import saloon.app.android.data.repository.questions.QuestionsItemKeyed
 import saloon.app.android.data.repository.questions.QuestionsRepositoryImpl
+import saloon.app.android.data.repository.user.UsersRepositoryImpl
 import saloon.app.android.ui.base.FeedAdapter
 import saloon.app.android.ui.base.MarginItemDecoration
 import saloon.app.android.ui.base.ModelsDiffUtilItemCallback
@@ -35,12 +36,14 @@ class FeedFragment : Fragment(R.layout.feed_fragment) {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         viewModel = ViewModelProvider(
             this, FeedViewModelProvider(
+                UsersRepositoryImpl(Firebase.firestore, Firebase.auth),
                 QuestionsRepositoryImpl(
                     QuestionsItemKeyed(
                         Firebase.firestore,
-                        User("MujgUavCZIPuu5knemEp4FVF8hl2", "", "", "", 0, 0),
+                        Firebase.auth.uid!!,
                         QuestionsRepositoryImpl.QUESTIONS_COLLECTION_NAME
                     ),
                     Executors.newSingleThreadExecutor(),
