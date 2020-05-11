@@ -12,7 +12,5 @@ class NotificationsFragment : Fragment(R.layout.notifications_fragment) {
         super.onActivityCreated(savedInstanceState)
 
         viewModel = ViewModelProvider(this).get(NotificationsViewModel::class.java)
-
-
     }
 }

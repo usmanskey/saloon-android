@@ -1,4 +1,4 @@
-package saloon.app.android.ui.models
+package saloon.app.android.data.models
 
 class Model {
 

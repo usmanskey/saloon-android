@@ -9,11 +9,11 @@ import saloon.app.android.data.models.Question
 import saloon.app.android.ui.base.holders.AbstractViewHolder
 import saloon.app.android.ui.base.holders.QuestionViewHolder
 import saloon.app.android.ui.base.holders.RecyclerViewHolder
-import saloon.app.android.ui.models.Model
+import saloon.app.android.data.models.Model
 
-private val FEED_LIST_ITEM_LIST = R.layout.item_recycler_view
-private val FEED_LIST_ITEM_QUESTION = R.layout.item_question
-private val FEED_LIST_ITEM_ARTICLE = 2
+private const val FEED_LIST_ITEM_LIST = R.layout.item_recycler_view
+private const val FEED_LIST_ITEM_QUESTION = R.layout.item_question
+private const val FEED_LIST_ITEM_ARTICLE = 2
 
 class FeedAdapter(private val diffCallback: DiffUtil.ItemCallback<Model>) :
     PagedListAdapter<Model, AbstractViewHolder<Model>>(diffCallback) {
@@ -25,7 +25,7 @@ class FeedAdapter(private val diffCallback: DiffUtil.ItemCallback<Model>) :
             viewType, parent, false
         )
         return when (viewType) {
-            FEED_LIST_ITEM_LIST -> RecyclerViewHolder<Model>(
+            FEED_LIST_ITEM_LIST -> RecyclerViewHolder(
                 layout,
                 R.id.recycler_view,
                 FeedAdapter(diffCallback)
@@ -34,10 +34,10 @@ class FeedAdapter(private val diffCallback: DiffUtil.ItemCallback<Model>) :
                 layout
             )
             else -> throw IllegalArgumentException(viewType.toString())
-        } as AbstractViewHolder<Model>
+        }
     }
 
-    override fun getItemViewType(position: Int)  = when (getItem(position)?.item) {
+    override fun getItemViewType(position: Int) = when (getItem(position)?.item) {
         is List<*> -> FEED_LIST_ITEM_LIST
         is Question -> FEED_LIST_ITEM_QUESTION
         else -> FEED_LIST_ITEM_ARTICLE

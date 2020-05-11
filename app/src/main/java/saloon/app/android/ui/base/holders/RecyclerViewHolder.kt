@@ -5,7 +5,7 @@ import androidx.annotation.IdRes
 import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import saloon.app.android.ui.models.Model
+import saloon.app.android.data.models.Model
 
 
 /**
