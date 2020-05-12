@@ -9,4 +9,5 @@
     <color name="white">#FFFFFF</color>
 
     <color name="question_transparent_background">#30424242</color>
+    <color name="darker_gray">#66BABABA</color>
 </resources>

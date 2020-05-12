@@ -3,6 +3,8 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-android-extensions'
     id 'com.google.gms.google-services'
+    id 'kotlin-kapt'
+
 }
 
 android {
@@ -36,6 +38,7 @@ android {
 }
 
 dependencies {
+    implementation 'com.google.firebase:firebase-storage:19.1.1'
     def koin_version = '2.1.5'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -48,6 +51,8 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:18.0.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.1.1'
     implementation "org.koin:koin-android:$koin_version"
+    implementation 'com.firebaseui:firebase-ui-storage:6.2.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
 
     def paging_version = "2.1.2"
 

@@ -27,10 +27,10 @@ class QuestionsRepositoryImpl(
         .setNotifyExecutor(notifyExecutor)
         .build()
 
-    override suspend fun createQuestion(userId: String, question: Question): Boolean {
-        val db = Firebase.firestore
+    override fun invalidateFeed() = questionsItemKeyed.invalidate()
 
-        val doc = db.collection(UsersRepositoryImpl.USERS_COLLECTION_NAME)
+    override suspend fun createQuestion(userId: String, question: Question): Boolean {
+        val doc = Firebase.firestore.collection(UsersRepositoryImpl.USERS_COLLECTION_NAME)
             .document(userId)
             .collection(QUESTIONS_COLLECTION_NAME)
             .document()
@@ -41,7 +41,6 @@ class QuestionsRepositoryImpl(
         } catch (e: Exception) {
             false
         }
-
     }
 
     override suspend fun getQuestion(id: String): Question {

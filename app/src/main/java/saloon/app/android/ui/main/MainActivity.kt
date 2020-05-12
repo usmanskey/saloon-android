@@ -2,17 +2,13 @@ package saloon.app.android.ui.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.main_activity.*
-import kotlinx.coroutines.MainScope
 import saloon.app.android.R
 import saloon.app.android.ui.articles.ArticlesFragment
 import saloon.app.android.ui.feed.FeedFragment
-import saloon.app.android.ui.main.MainAdapter
 import saloon.app.android.ui.notifications.NotificationsFragment
-import saloon.app.android.ui.questions.create.QuestionCreateFragment
+import saloon.app.android.ui.questions.creator.QuestionCreateFragment
 
 class MainActivity : AppCompatActivity(R.layout.main_activity) {
 

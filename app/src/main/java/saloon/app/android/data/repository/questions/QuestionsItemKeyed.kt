@@ -22,6 +22,7 @@ class QuestionsItemKeyed(
             .document(userId)
             .collection(questionsCollectionName)
             .limit(params.requestedLoadSize.toLong())
+            .orderBy("date")
             .get()
             .addOnSuccessListener { result ->
                 val questions = result.toObjects(Question::class.java)

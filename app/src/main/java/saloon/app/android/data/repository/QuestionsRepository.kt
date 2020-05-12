@@ -10,6 +10,8 @@ interface QuestionsRepository {
 
     fun getUserFeed(): PagedList<Model>
 
+    fun invalidateFeed()
+
     suspend fun createQuestion(userId: String, question: Question): Boolean
 
     suspend fun getQuestion(id: String): Question
