@@ -21,8 +21,10 @@ import kotlinx.android.synthetic.main.create_question_fragment.*
 import kotlinx.coroutines.launch
 import saloon.app.android.R
 import saloon.app.android.data.models.Question
+import saloon.app.android.data.models.User
 import saloon.app.android.data.repository.questions.QuestionsItemKeyedFactory
 import saloon.app.android.data.repository.questions.QuestionsRepositoryImpl
+import saloon.app.android.data.repository.user.UsersRepositoryImpl
 import saloon.app.android.ui.main.MainActivity
 import java.util.*
 
@@ -47,7 +49,8 @@ class QuestionCreateFragment : Fragment(R.layout.create_question_fragment) {
                         Firebase.auth.uid!!,
                         QuestionsRepositoryImpl.QUESTIONS_COLLECTION_NAME
                     )
-                )
+                ),
+                UsersRepositoryImpl(Firebase.firestore, Firebase.auth)
             )
         ).get(QuestionCreatorViewModel::class.java)
         storage = FirebaseStorage.getInstance()
@@ -99,10 +102,12 @@ class QuestionCreateFragment : Fragment(R.layout.create_question_fragment) {
 
     private fun uploadQuestion(pathUrl: String? = null) {
         lifecycleScope.launch {
+            val user = if (!do_not_display_author.isChecked) viewModel.getUser() else null
             viewModel.createQuestion(
                 Question(
                     title = question_title.text.toString(),
                     date = Date().time,
+                    author = user,
                     imageUrl = pathUrl
                 )
             )

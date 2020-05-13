@@ -1,5 +1,6 @@
 package saloon.app.android.ui.base.holders
 
+import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
@@ -29,6 +30,7 @@ class QuestionViewHolder(itemView: View) : AbstractViewHolder<Question>(itemView
         val gsReference =
             FirebaseStorage.getInstance().getReferenceFromUrl("gs://saloon-1c4a1.appspot.com/")
 
+        Log.d("image_Url", imageUrl)
         itemView.question_image.isVisible = if (imageUrl != null) {
             val imageReference = gsReference.child(imageUrl + "_1920x1080")
             imageReference.downloadUrl.addOnCompleteListener { task ->
