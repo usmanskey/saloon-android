@@ -7,7 +7,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -22,10 +21,9 @@ import kotlinx.android.synthetic.main.create_question_fragment.*
 import kotlinx.coroutines.launch
 import saloon.app.android.R
 import saloon.app.android.data.models.Question
-import saloon.app.android.data.repository.questions.QuestionsItemKeyed
+import saloon.app.android.data.repository.questions.QuestionsItemKeyedFactory
 import saloon.app.android.data.repository.questions.QuestionsRepositoryImpl
 import java.util.*
-import java.util.concurrent.Executors
 
 
 private const val PICK_IMAGE_REQUEST = 101
@@ -43,13 +41,11 @@ class QuestionCreateFragment : Fragment(R.layout.create_question_fragment) {
         viewModel = ViewModelProvider(
             this, QuestionCreatorViewModelProvider(
                 QuestionsRepositoryImpl(
-                    QuestionsItemKeyed(
+                    QuestionsItemKeyedFactory(
                         Firebase.firestore,
                         Firebase.auth.uid!!,
                         QuestionsRepositoryImpl.QUESTIONS_COLLECTION_NAME
-                    ),
-                    Executors.newSingleThreadExecutor(),
-                    ContextCompat.getMainExecutor(context)
+                    )
                 )
             )
         ).get(QuestionCreatorViewModel::class.java)
@@ -60,13 +56,15 @@ class QuestionCreateFragment : Fragment(R.layout.create_question_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        cancel_button.setOnClickListener {
+            clearQuestion()
+        }
+
         question_title.addTextChangedListener {
             create_question_button.isEnabled = it?.isNotEmpty() == true && it.last() == '?'
         }
 
         open_image_picker.setOnClickListener {
-
-            // Defining Implicit Intent to mobile gallery
             val intent = Intent()
             intent.type = "image/*"
             intent.action = Intent.ACTION_GET_CONTENT
@@ -80,14 +78,43 @@ class QuestionCreateFragment : Fragment(R.layout.create_question_fragment) {
         }
 
         create_question_button.setOnClickListener {
-            uploadImage()
+            if (filePath != null)
+                uploadImage()
+            else
+                uploadQuestion()
+        }
+    }
+
+    private fun clearQuestion() {
+        question_image.setImageResource(android.R.color.transparent);
+        do_not_display_author.isChecked = false
+        filePath = null
+        question_title.text = null
+
+    }
+
+    private fun uploadQuestion(pathUrl: String? = null) {
+        lifecycleScope.launch {
+            viewModel.createQuestion(
+                Question(
+                    title = question_title.text.toString(),
+                    date = Date().time,
+                    imageUrl = pathUrl
+                )
+            )
+            Toast.makeText(
+                context,
+                getString(R.string.question_upload_successfull),
+                Toast.LENGTH_SHORT
+            ).show()
+
+            clearQuestion()
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data?.data != null
-        ) {
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data?.data != null) {
 
             filePath = data.data
             Glide.with(this).load(filePath).into(question_image)
@@ -102,27 +129,15 @@ class QuestionCreateFragment : Fragment(R.layout.create_question_fragment) {
             progressDialog.setTitle("Uploading...")
             progressDialog.show()
 
-            val pathUrl = "images/" + UUID.randomUUID().toString()
+            val pathUrl = "images/" + UUID.randomUUID().toString().replace("-", "")
 
             // Defining the child of storageReference
             val ref: StorageReference = storageReference.child(pathUrl)
             ref.putFile(filePath!!).addOnSuccessListener {
                 progressDialog.dismiss()
-                Toast.makeText(
-                    context,
-                    getString(R.string.question_upload_successfull),
-                    Toast.LENGTH_SHORT
-                ).show()
 
-                lifecycleScope.launch {
-                    viewModel.createQuestion(
-                        Question(
-                            title = question_title.text.toString(),
-                            date = Date().time,
-                            imageUrl = pathUrl
-                        )
-                    )
-                }
+
+                uploadQuestion(pathUrl)
             }.addOnFailureListener { e -> // Error, Image not uploaded
                 progressDialog.dismiss()
                 Toast

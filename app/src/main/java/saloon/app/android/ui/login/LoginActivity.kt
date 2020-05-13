@@ -69,21 +69,21 @@ class LoginActivity : AppCompatActivity(R.layout.login_activity) {
         try {
             val account = completedTask.getResult(ApiException::class.java)
             account?.let {
-                firebaseAuthWithGoogle(it.idToken!!)
-
-                val user = User(account.idToken!!, account.displayName!!, account.email!!, "", 0, 0)
-                viewModel.saveUser(user)
+                firebaseAuthWithGoogle(it)
             }
         } catch (e: ApiException) {
             Log.w(TAG, "signInResult:failed code=" + e.statusCode)
         }
 
-    private fun firebaseAuthWithGoogle(idToken: String) {
-        val credential = GoogleAuthProvider.getCredential(idToken, null)
+    private fun firebaseAuthWithGoogle(account: GoogleSignInAccount) {
+        val credential = GoogleAuthProvider.getCredential(account.idToken, null)
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     Log.d(TAG, "signInWithCredential:success")
+                    val user =
+                        User(Firebase.auth.uid!!, account.displayName!!, account.email!!, "", 0, 0)
+                    viewModel.saveUser(user)
                     startActivity(Intent(this, MainActivity::class.java))
                     finish()
                 } else {

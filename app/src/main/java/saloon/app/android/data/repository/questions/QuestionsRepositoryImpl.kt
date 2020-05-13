@@ -1,46 +1,46 @@
 package saloon.app.android.data.repository.questions
 
+import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import androidx.paging.PagedList
+import androidx.paging.toLiveData
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.google.firestore.v1.FirestoreGrpc
 import kotlinx.coroutines.tasks.await
 import saloon.app.android.data.models.Answer
 import saloon.app.android.data.models.Model
 import saloon.app.android.data.models.Question
-import saloon.app.android.data.models.User
 import saloon.app.android.data.repository.QuestionsRepository
 import saloon.app.android.data.repository.user.UsersRepositoryImpl
-import java.lang.Exception
-import java.util.concurrent.Executor
+import java.util.*
 
 class QuestionsRepositoryImpl(
-    private val questionsItemKeyed: QuestionsItemKeyed,
-    private val fetchExecutor: Executor,
-    private val notifyExecutor: Executor
+    questionsItemKeyedFactory: DataSource.Factory<Long, Model>
 ) : QuestionsRepository {
 
-    override fun getUserFeed(): PagedList<Model> = PagedList.Builder(
-        questionsItemKeyed, 15
+    private val feedLiveData = questionsItemKeyedFactory.toLiveData(
+        PagedList.Config.Builder()
+            .setInitialLoadSizeHint(20)
+            .setPrefetchDistance(40)
+            .build(),
+        Date().time
     )
-        .setFetchExecutor(fetchExecutor)
-        .setNotifyExecutor(notifyExecutor)
-        .build()
 
-    override fun invalidateFeed() = questionsItemKeyed.invalidate()
+    override fun getUserFeed(): LiveData<PagedList<Model>> = feedLiveData
 
-    override suspend fun createQuestion(userId: String, question: Question): Boolean {
-        val doc = Firebase.firestore.collection(UsersRepositoryImpl.USERS_COLLECTION_NAME)
+    override fun invalidateFeed() = feedLiveData.value?.dataSource?.invalidate() ?: Unit
+
+    override suspend fun createQuestion(userId: String, question: Question) = try {
+        val db = Firebase.firestore
+
+        val doc = db.collection(UsersRepositoryImpl.USERS_COLLECTION_NAME)
             .document(userId)
             .collection(QUESTIONS_COLLECTION_NAME)
             .document()
-
-        return try {
-            doc.set(question.apply { id = doc.id }).await()
-            true
-        } catch (e: Exception) {
-            false
-        }
+        doc.set(question.apply { id = doc.id }).await()
+        true
+    } catch (e: Exception) {
+        false
     }
 
     override suspend fun getQuestion(id: String): Question {

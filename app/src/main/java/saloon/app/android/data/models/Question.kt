@@ -5,6 +5,6 @@ data class Question(
     val title: String = "",
     val author: User? = null,
     val answers: List<Answer> = emptyList(),
-    val imageUrl: String = "",
+    val imageUrl: String? = null,
     val date: Long = 0L
 )

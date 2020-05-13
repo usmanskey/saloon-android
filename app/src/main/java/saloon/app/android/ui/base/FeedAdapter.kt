@@ -2,14 +2,15 @@ package saloon.app.android.ui.base
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagedList
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import saloon.app.android.R
+import saloon.app.android.data.models.Model
 import saloon.app.android.data.models.Question
 import saloon.app.android.ui.base.holders.AbstractViewHolder
 import saloon.app.android.ui.base.holders.QuestionViewHolder
 import saloon.app.android.ui.base.holders.RecyclerViewHolder
-import saloon.app.android.data.models.Model
 
 private const val FEED_LIST_ITEM_LIST = R.layout.item_recycler_view
 private const val FEED_LIST_ITEM_QUESTION = R.layout.item_question
@@ -45,4 +46,11 @@ class FeedAdapter(private val diffCallback: DiffUtil.ItemCallback<Model>) :
 
     override fun onBindViewHolder(holder: AbstractViewHolder<Model>, position: Int) =
         holder.bind(getItem(position)!!)
+
+    override fun onCurrentListChanged(
+        previousList: PagedList<Model>?,
+        currentList: PagedList<Model>?
+    ) {
+        super.onCurrentListChanged(previousList, currentList)
+    }
 }

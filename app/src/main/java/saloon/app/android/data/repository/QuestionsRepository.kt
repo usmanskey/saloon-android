@@ -1,14 +1,14 @@
 package saloon.app.android.data.repository
 
+import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import saloon.app.android.data.models.Answer
 import saloon.app.android.data.models.Model
 import saloon.app.android.data.models.Question
-import saloon.app.android.data.models.User
 
 interface QuestionsRepository {
 
-    fun getUserFeed(): PagedList<Model>
+    fun getUserFeed(): LiveData<PagedList<Model>>
 
     fun invalidateFeed()
 

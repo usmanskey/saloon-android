@@ -1,5 +1,6 @@
 package saloon.app.android.ui.feed
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.paging.PagedList
 import saloon.app.android.data.models.Model
@@ -11,10 +12,11 @@ class FeedViewModel(
     private val questionsRepository: QuestionsRepository
 ) : ViewModel() {
 
-    val items: PagedList<Model>
+    val items: LiveData<PagedList<Model>>
         get() = questionsRepository.getUserFeed()
 
     suspend fun getUser() = usersRepository.getUser()
 
     fun invalidateDataSource() = questionsRepository.invalidateFeed()
+
 }
