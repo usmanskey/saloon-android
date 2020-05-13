@@ -8,6 +8,7 @@
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
 
-    <color name="question_transparent_background">#30424242</color>
+    <color name="question_transparent_background">#4A2B2A2A</color>
     <color name="darker_gray">#66BABABA</color>
+
 </resources>

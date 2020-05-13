@@ -2,55 +2,48 @@ package saloon.app.android.ui.base
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagedList
-import androidx.paging.PagedListAdapter
-import androidx.recyclerview.widget.DiffUtil
+import com.firebase.ui.firestore.paging.FirestorePagingAdapter
+import com.firebase.ui.firestore.paging.FirestorePagingOptions
+import com.firebase.ui.firestore.paging.LoadingState
 import saloon.app.android.R
-import saloon.app.android.data.models.Model
 import saloon.app.android.data.models.Question
 import saloon.app.android.ui.base.holders.AbstractViewHolder
 import saloon.app.android.ui.base.holders.QuestionViewHolder
-import saloon.app.android.ui.base.holders.RecyclerViewHolder
 
 private const val FEED_LIST_ITEM_LIST = R.layout.item_recycler_view
 private const val FEED_LIST_ITEM_QUESTION = R.layout.item_question
 private const val FEED_LIST_ITEM_ARTICLE = 2
 
-class FeedAdapter(private val diffCallback: DiffUtil.ItemCallback<Model>) :
-    PagedListAdapter<Model, AbstractViewHolder<Model>>(diffCallback) {
+class FeedAdapter(
+    config: FirestorePagingOptions<Question>,
+    private val onRefreshingListener: (LoadingState) -> Unit
+) :
+    FirestorePagingAdapter<Question, AbstractViewHolder<Question>>(config) {
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): AbstractViewHolder<Model> {
+    ): AbstractViewHolder<Question> {
         val layout = LayoutInflater.from(parent.context).inflate(
-            viewType, parent, false
+            FEED_LIST_ITEM_QUESTION, parent, false
         )
-        return when (viewType) {
-            FEED_LIST_ITEM_LIST -> RecyclerViewHolder(
-                layout,
-                R.id.recycler_view,
-                FeedAdapter(diffCallback)
-            )
-            FEED_LIST_ITEM_QUESTION -> QuestionViewHolder(
-                layout
-            )
-            else -> throw IllegalArgumentException(viewType.toString())
-        }
+        return QuestionViewHolder(
+            layout
+        )
     }
 
-    override fun getItemViewType(position: Int) = when (getItem(position)?.item) {
-        is List<*> -> FEED_LIST_ITEM_LIST
-        is Question -> FEED_LIST_ITEM_QUESTION
-        else -> FEED_LIST_ITEM_ARTICLE
-    }
 
-    override fun onBindViewHolder(holder: AbstractViewHolder<Model>, position: Int) =
-        holder.bind(getItem(position)!!)
-
-    override fun onCurrentListChanged(
-        previousList: PagedList<Model>?,
-        currentList: PagedList<Model>?
+    override fun onBindViewHolder(
+        holder: AbstractViewHolder<Question>,
+        position: Int,
+        model: Question
     ) {
-        super.onCurrentListChanged(previousList, currentList)
+        holder.bind(model)
+    }
+
+    override fun onLoadingStateChanged(state: LoadingState) {
+        super.onLoadingStateChanged(state)
+        onRefreshingListener(state)
+
     }
 }

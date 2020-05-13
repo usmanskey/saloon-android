@@ -8,4 +8,6 @@ class MainAdapter(fragmentActivity: FragmentActivity, private val fragments: Arr
     override fun getItemCount(): Int = fragments.size
 
     override fun createFragment(position: Int): Fragment = fragments[position]
+
+
 }

@@ -23,6 +23,7 @@ import saloon.app.android.R
 import saloon.app.android.data.models.Question
 import saloon.app.android.data.repository.questions.QuestionsItemKeyedFactory
 import saloon.app.android.data.repository.questions.QuestionsRepositoryImpl
+import saloon.app.android.ui.main.MainActivity
 import java.util.*
 
 
@@ -58,6 +59,7 @@ class QuestionCreateFragment : Fragment(R.layout.create_question_fragment) {
 
         cancel_button.setOnClickListener {
             clearQuestion()
+            scrollToFeed()
         }
 
         question_title.addTextChangedListener {
@@ -85,12 +87,14 @@ class QuestionCreateFragment : Fragment(R.layout.create_question_fragment) {
         }
     }
 
+    private fun scrollToFeed() =
+        (activity as? MainActivity)?.scrollToFeed()
+
     private fun clearQuestion() {
         question_image.setImageResource(android.R.color.transparent);
         do_not_display_author.isChecked = false
         filePath = null
         question_title.text = null
-
     }
 
     private fun uploadQuestion(pathUrl: String? = null) {
@@ -102,20 +106,21 @@ class QuestionCreateFragment : Fragment(R.layout.create_question_fragment) {
                     imageUrl = pathUrl
                 )
             )
+            clearQuestion()
+
             Toast.makeText(
                 context,
                 getString(R.string.question_upload_successfull),
                 Toast.LENGTH_SHORT
             ).show()
 
-            clearQuestion()
+            scrollToFeed()
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data?.data != null) {
-
             filePath = data.data
             Glide.with(this).load(filePath).into(question_image)
         }

@@ -17,9 +17,12 @@ class UsersRepositoryImpl(private val db: FirebaseFirestore, private val auth: F
             .await()
             .toObject(User::class.java)
 
-    override suspend fun getUser() =
-        db.collection(USERS_COLLECTION_NAME).document(auth.uid!!).get().await()
-            .toObject(User::class.java)
+    override suspend fun getUser() = db
+        .collection(USERS_COLLECTION_NAME)
+        .document(auth.uid!!)
+        .get()
+        .await()
+        .toObject(User::class.java)
 
     override suspend fun saveUser(user: User) {
         db.collection(USERS_COLLECTION_NAME).document(user.id).set(user).await()

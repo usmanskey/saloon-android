@@ -7,7 +7,8 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
@@ -27,10 +28,10 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     app:tabGravity="fill"
-                    app:tabIndicatorColor="@color/black"
+                    app:tabIndicatorColor="?colorPrimary"
                     app:tabIndicatorFullWidth="false"
                     app:tabIndicatorHeight="4dp"
-                    app:tabSelectedTextColor="@color/black" />
+                    app:tabSelectedTextColor="?colorPrimary" />
 
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.CollapsingToolbarLayout>

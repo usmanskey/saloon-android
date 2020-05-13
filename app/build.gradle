@@ -52,6 +52,8 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.1.1'
     implementation "org.koin:koin-android:$koin_version"
     implementation 'com.firebaseui:firebase-ui-storage:6.2.1'
+    implementation 'com.firebaseui:firebase-ui-firestore:6.2.1'
+
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
 
     def paging_version = "2.1.2"
