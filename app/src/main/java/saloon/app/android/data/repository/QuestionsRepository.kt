@@ -12,9 +12,9 @@ interface QuestionsRepository {
 
     fun invalidateFeed()
 
-    suspend fun createQuestion(userId: String, question: Question): Boolean
-
-    suspend fun getQuestion(id: String): Question
+    suspend fun getQuestion(id: String): Question?
 
     suspend fun addAnswer(answer: Answer, id: String): Boolean
+
+    suspend fun createQuestion(question: Question): String
 }

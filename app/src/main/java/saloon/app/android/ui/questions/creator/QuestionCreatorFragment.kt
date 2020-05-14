@@ -21,7 +21,6 @@ import kotlinx.android.synthetic.main.create_question_fragment.*
 import kotlinx.coroutines.launch
 import saloon.app.android.R
 import saloon.app.android.data.models.Question
-import saloon.app.android.data.models.User
 import saloon.app.android.data.repository.questions.QuestionsItemKeyedFactory
 import saloon.app.android.data.repository.questions.QuestionsRepositoryImpl
 import saloon.app.android.data.repository.user.UsersRepositoryImpl

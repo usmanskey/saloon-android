@@ -19,8 +19,7 @@ class QuestionsItemKeyed(
         params: LoadInitialParams<Long>,
         callback: LoadInitialCallback<Model>
     ) {
-        db.collection(UsersRepositoryImpl.USERS_COLLECTION_NAME)
-            .document(userId)
+        db
             .collection(questionsCollectionName)
             .limit(params.requestedLoadSize.toLong())
             .orderBy("date", Query.Direction.DESCENDING)
@@ -37,8 +36,7 @@ class QuestionsItemKeyed(
 
     override fun loadAfter(params: LoadParams<Long>, callback: LoadCallback<Model>) {
         if (params.requestedLoadSize > 0)
-            db.collection(UsersRepositoryImpl.USERS_COLLECTION_NAME)
-                .document(userId)
+            db
                 .collection(questionsCollectionName)
                 .limit(params.requestedLoadSize.toLong())
                 .orderBy("date", Query.Direction.DESCENDING)
@@ -59,8 +57,7 @@ class QuestionsItemKeyed(
 
     override fun loadBefore(params: LoadParams<Long>, callback: LoadCallback<Model>) {
         if (params.requestedLoadSize > 0)
-            db.collection(UsersRepositoryImpl.USERS_COLLECTION_NAME)
-                .document(userId)
+            db
                 .collection(questionsCollectionName)
                 .limit(params.requestedLoadSize.toLong())
                 .orderBy("date", Query.Direction.DESCENDING)

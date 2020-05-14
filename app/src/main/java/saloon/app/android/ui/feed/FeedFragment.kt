@@ -37,9 +37,7 @@ class FeedFragment : Fragment(R.layout.feed_fragment) {
     }
 
     private val query by lazy(LazyThreadSafetyMode.NONE) {
-        db.collection(UsersRepositoryImpl.USERS_COLLECTION_NAME)
-            .document(Firebase.auth.uid!!)
-            .collection(QuestionsRepositoryImpl.QUESTIONS_COLLECTION_NAME)
+        db.collection(QuestionsRepositoryImpl.QUESTIONS_COLLECTION_NAME)
             .orderBy("date", Query.Direction.DESCENDING)
     }
 

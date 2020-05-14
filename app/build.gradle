@@ -8,6 +8,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('C:\\Users\\User\\OneDrive\\saloon_gp_key.jks')
+            storePassword store_password
+            keyAlias key_allias
+            keyPassword key_password
+        }
+    }
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 

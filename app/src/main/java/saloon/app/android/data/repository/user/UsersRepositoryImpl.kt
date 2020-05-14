@@ -1,10 +1,14 @@
 package saloon.app.android.data.repository.user
 
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
+import saloon.app.android.data.models.QuestionId
 import saloon.app.android.data.models.User
 import saloon.app.android.data.repository.UsersRepository
+import saloon.app.android.data.repository.questions.QuestionsRepositoryImpl
 
 
 class UsersRepositoryImpl(private val db: FirebaseFirestore, private val auth: FirebaseAuth) :
@@ -26,6 +30,14 @@ class UsersRepositoryImpl(private val db: FirebaseFirestore, private val auth: F
 
     override suspend fun saveUser(user: User) {
         db.collection(USERS_COLLECTION_NAME).document(user.id).set(user).await()
+    }
+
+    override suspend fun addQuestionToUser(questionId: QuestionId) {
+        db.collection(USERS_COLLECTION_NAME)
+            .document(Firebase.auth.uid!!)
+            .collection(QuestionsRepositoryImpl.QUESTIONS_COLLECTION_NAME)
+            .add(questionId)
+            .await()
     }
 
     companion object {

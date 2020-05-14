@@ -3,7 +3,6 @@ package saloon.app.android.ui.articles
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.paging.PagedList
 import com.firebase.ui.firestore.paging.FirestorePagingOptions
@@ -21,7 +20,6 @@ import saloon.app.android.data.repository.questions.QuestionsRepositoryImpl
 import saloon.app.android.data.repository.user.UsersRepositoryImpl
 import saloon.app.android.ui.base.FeedAdapter
 import saloon.app.android.ui.base.MarginItemDecoration
-import saloon.app.android.ui.base.QuestionDiffUtilItemCallback
 import kotlin.math.roundToInt
 
 class ArticlesFragment : Fragment(R.layout.feed_fragment) {
